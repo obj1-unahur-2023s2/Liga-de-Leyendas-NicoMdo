@@ -1,0 +1,36 @@
+import oleada.*
+import campeon.*
+import items.*
+
+
+describe "Tests Etapa 2"{
+//declaracion objetos
+	//items
+	const anilloDeDorean = new AnilloDeDorean(peso= 200)
+	
+	const tomoAmplificador = new TomoAmplificador(peso= 1000)
+
+	//Campeones
+	const campeon1 = new Campeon(puntosDeVida= 20,puntosDeDanio= 45, puntosDeAtaque= 10, items = #{anilloDeDorean, tomoAmplificador}, unidadesDeBloqueo=2)
+	const campeon2 = new Campeon(puntosDeVida= 20,puntosDeDanio= 45, puntosDeAtaque= 10, items = #{anilloDeDorean, tomoAmplificador})
+	//Oleadas
+	const oleada = new Oleada(cantDeMinions= 35, plusDeDanio= 5)
+	
+	
+//tests
+	test "Si el campeón tiene dos unidades de bloqueo y batalla contra la oleada, entonces sigue teniendo 45 puntos de daño acumulados"{
+		campeon1.efectosDeBatalla(oleada)
+		assert.equals(45, campeon1.puntosDeDanio())
+		
+	}
+	
+	test "Si el campeón no tiene unidades de bloqueo, entonces su acumulado de puntos de daño pasa de 45 a 85"{
+		campeon2.efectosDeBatalla(oleada)
+		assert.equals(85, campeon2.puntosDeDanio())
+	}
+	
+	test "El campeon nace muerto"{
+		assert.that(campeon1.estaMuerto())
+	}
+		
+}

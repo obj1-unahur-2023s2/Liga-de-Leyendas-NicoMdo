@@ -1,0 +1,75 @@
+import campeon.*
+import items.*
+import oleada.*
+
+describe "Efecto sobre los minions " {
+	//items
+	const anilloDeDorean = new AnilloDeDorean(peso= 200)
+	
+	const tomoAmplificador = new TomoAmplificador(peso= 1000)
+	
+	const sombreroDeRabadon = new SombreroDeRabadon(peso=600)
+	
+	//Campeones
+	 
+    const campeon1 = new Campeon(puntosDeVida= 20, puntosDeAtaque= 20, items = #{anilloDeDorean, tomoAmplificador}, unidadesDeBloqueo=2)
+    
+	const campeon2 = new Campeon(puntosDeVida= 20, puntosDeAtaque= 60)
+	
+	//Oleadas
+	const oleada = new Oleada(cantDeMinions= 35, plusDeDanio= 5)
+
+//Testttssss
+    test "la cantidad de minions baja al entrar en batalla si tiene entre 20 y 40 nivel de ataque"{
+        oleada.disminuirDanioExtra(campeon1)
+        assert.equals(4,oleada.plusDeDanio())
+
+    }
+    
+    test "la cantidad de minions baja 2 unidades al entrar en batalla si tiene mas de 40 nivel de ataque"{
+        oleada.disminuirDanioExtra(campeon2)
+        assert.equals(3,oleada.plusDeDanio())
+    }
+
+	test "la cantidad de minions de la oleada pasa de 35 a 25 luego de batallar con el campeon1"{
+		oleada.efectoDeBatalla(campeon1)
+		assert.equals(25, oleada.cantDeMinions())
+	}
+	
+	test "el campeon 2 al equiparse el anillo de doran recibe 5 puntos de daño"{
+		campeon2.equipar(anilloDeDorean)
+		assert.equals(5, campeon2.puntosDeDanio())
+	}
+	
+	test "el campeon 2 al desequiparse el anillo de doran descuenta 10 puntos de daño"{
+		campeon2.desequipar(anilloDeDorean)
+		assert.equals(0, campeon2.puntosDeDanio())
+	}
+	
+	test "el campeon 2 al equiparse el tomo, las unidades de bloqueo pasan de 0 a 2"{
+		campeon2.equipar(tomoAmplificador)
+		assert.equals(2, campeon2.unidadesDeBloqueo())
+	}
+	
+	test "el campeon 2 al desequiparse el tomo, recibe 30 puntos de daño"{
+		campeon2.desequipar(tomoAmplificador)
+		assert.equals(30, campeon2.puntosDeDanio())
+	}
+	
+	test "el campeon 2 al equiparse el sombrero, las unidades de bloqueo pasan de 0 a 2 y ademas recibe 10 puntos de daño"{
+		campeon2.equipar(sombreroDeRabadon)
+		assert.equals(2, campeon2.unidadesDeBloqueo())
+		assert.equals(10, campeon2.puntosDeDanio())
+	}
+	
+	
+	test "el campeon 2 al desequiparse el sombrero, no hace nada"{
+		campeon2.equipar(sombreroDeRabadon)
+		campeon2.desequipar(sombreroDeRabadon)
+		assert.equals(2, campeon2.unidadesDeBloqueo())
+		assert.equals(10, campeon2.puntosDeDanio())
+	}
+	
+}
+
+

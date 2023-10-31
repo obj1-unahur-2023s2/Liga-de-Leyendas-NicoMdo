@@ -1,0 +1,30 @@
+import campeon.*
+import items.*
+import oleada.*
+
+describe "Efecto sobre los minions " {
+	//items
+	const anilloDeDorean = new AnilloDeDorean(peso= 200)
+	
+	const tomoAmplificador = new TomoAmplificador(peso= 200)
+	
+	const sombreroDeRabadon = new SombreroDeRabadon(peso=600)
+	
+	const baston = new BastonDelVacio(peso=600, items =[anilloDeDorean, tomoAmplificador, sombreroDeRabadon])
+	
+	//Campeones 
+    
+	const campeon2 = new Campeon(puntosDeVida= 20, puntosDeAtaque= 60)
+
+//Testttssss
+    test "el peso del baston es 600"{
+        assert.equals(600, baston.peso())
+    }
+    
+    test"la vida que otorga el baston es 220 por tener el anillo el tomo y el sombrero"{
+    	campeon2.equipar(baston)
+    	assert.equals(220, baston.vidaQueOtorga(campeon2))
+ 
+    }
+     
+}

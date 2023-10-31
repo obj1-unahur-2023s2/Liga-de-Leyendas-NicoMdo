@@ -1,0 +1,63 @@
+import oleada.*
+import campeon.*
+import items.*
+
+
+describe "Tests Etapa 1"{
+//declaracion objetos
+	//items
+	const anilloDeDorean = new AnilloDeDorean(peso= 200)
+	
+	const tomoAmplificador = new TomoAmplificador(peso= 1000)
+
+	//Campeones
+	const campeon1 = new Campeon(puntosDeVida= 20, puntosDeAtaque= 10, items = #{anilloDeDorean, tomoAmplificador})
+	
+	//Oleadas
+	const oleada = new Oleada(cantDeMinions= 35, plusDeDanio= 5)
+	
+	
+//tests
+	test "anillo Suma 80 puntos de vida"{
+		assert.equals(80, anilloDeDorean.vidaQueOtorga(campeon1))
+	}
+	
+	test "tomo Suma 40 puntos de vida"{
+		assert.equals(40, tomoAmplificador.vidaQueOtorga(campeon1))
+	}
+ 
+	test "No participó en ninguna batalla, por lo tanto su acumulado de puntos de daño es 0"{
+		assert.equals(0, campeon1.puntosDeDanio())
+	}
+	
+		
+	test "Este campeón tiene un total de 140 puntos de vida: 20 propios, más 80 del anillo, más 40 del tomo."{
+		assert.equals(140, campeon1.puntosDeVida())
+	}
+	
+	test "Este campeón tiene un total de 40 puntos de ataque: 10 propios, más 25 del anillo, más 5 del tomo."{
+		assert.equals(40, campeon1.cantidadTotalDeAtaque())
+	}
+	
+	test "Este campeón tiene 0 de unidad de bloqueo"{
+		assert.equals(0, campeon1.unidadesDeBloqueo())
+	}
+	
+	test "batalla con la oleada de minions de los ejemplos anteriores (que provoca 40 unidades de daño)"{
+		campeon1.efectosDeBatalla(oleada)
+		assert.equals(40, campeon1.puntosDeDanio())
+	}
+	
+	test "su total de puntos de vida pasa a 150"{
+		campeon1.efectosDeBatalla(oleada)
+		assert.equals(150, campeon1.puntosDeVida())
+	}
+	
+	test "Los puntos de ataque pasan a 44"{
+		campeon1.efectosDeBatalla(oleada)
+		assert.equals(44, campeon1.cantidadTotalDeAtaque())
+	}
+	
+	
+	
+}
